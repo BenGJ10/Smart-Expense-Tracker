@@ -1,5 +1,6 @@
 package com.bengregory.expensetracker.model;
 
+// Enums for Income
 public enum IncomeSource {
     SALARY("Salary"),
     FREELANCE("Freelance"),
