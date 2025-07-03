@@ -35,6 +35,15 @@ public class User {
         if (password == null || password.length() < 6) {
             throw new InvalidInputException("Password must be at least 6 characters");
         }
+        if (!password.matches(".*[A-Z].*")){
+            throw new InvalidInputException("Password must contain at least one uppercase letter");
+        }
+        if (!password.matches(".*[a-z].*")){
+            throw new InvalidInputException("Password must contain at least one lowercase letter");
+        }
+        if (!password.matches(".*\\d.*")) {
+            throw new InvalidInputException("Password must contain at least one digit");
+        }
         this.password = password;
     }
 }
