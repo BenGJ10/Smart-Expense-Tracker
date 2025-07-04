@@ -1,21 +1,20 @@
 package com.bengregory.expensetracker;
 
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-public class Main extends Application{
+public class Main extends Application {
     @Override
-    public void start(Stage primaryStage){
-        StackPane root = new StackPane();
-        root.getChildren().add(new Label("Smart Expense Tracker"));
-        Scene scene = new Scene(root, 600, 400);
+    public void start(Stage primaryStage) throws Exception {
+        Parent root = FXMLLoader.load(getClass().getResource("/com.bengregory.expensetracker.view/login.fxml"));
         primaryStage.setTitle("Smart Expense Tracker");
-        primaryStage.setScene(scene);
+        primaryStage.setScene(new Scene(root, 600, 400));
         primaryStage.show();
     }
+    // Use this command to run the Main file mvn clean javafx:run
     public static void main(String[] args) {
         launch(args);
     }
