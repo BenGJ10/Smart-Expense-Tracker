@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<BorderPane style="-fx-background-color: #2B2D42;" xmlns:fx="http://javafx.com/fxml">
+    <center>
+        <VBox alignment="CENTER" spacing="10">
+            <Label text="Welcome to Dashboard" style="-fx-font-size: 20; -fx-text-fill: #FFFFFF;"/>
+            <Label fx:id="welcomeLabel" text="" style="-fx-text-fill: #FFFFFF;"/>
+            <Button fx:id="logoutButton" text="Logout" style="-fx-background-color: #4A90E2; -fx-text-fill: #FFFFFF;"/>
+        </VBox>
+    </center>
+</BorderPane>
