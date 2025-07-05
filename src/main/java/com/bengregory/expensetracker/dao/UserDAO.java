@@ -13,25 +13,31 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/*
+    UserDAO creates User objects from database queries and passes them to controllers or SessionManager.
+    UserDAO implements IUserDAO, providing concrete database operations.
+ */
+
 public class UserDAO implements IUserDAO {
     private final CustomLogger logger = CustomLogger.getInstance();
 
     @Override
     public void registerUser(String username, String password) throws InvalidInputException, DatabaseException {
-        ValidationUtil.validateUsername(username);
+        ValidationUtil.validateUsername(username); // ensure username and password meet requirements
         ValidationUtil.validatePassword(password);
 
-        String hashedPassword = PasswordUtil.hashPassword(password);
+        String hashedPassword = PasswordUtil.hashPassword(password); // Hashes the password.
+        // The `?` symbols are placeholders that will be filled later to prevent SQL injection
         String sql = "INSERT INTO users (username, password) VALUES (?, ?)";
 
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, username.trim());
-            stmt.setString(2, hashedPassword);
-            stmt.executeUpdate();
+        try (Connection conn = DatabaseConnection.getConnection(); // connection object to database
+             PreparedStatement stmt = conn.prepareStatement(sql)) { // precompiled SQL command with placeholders
+            stmt.setString(1, username.trim()); // sets username
+            stmt.setString(2, hashedPassword);  // sets hashedPassword
+            stmt.executeUpdate(); // executes the SQL query
             logger.info("User registered successfully: " + username);
         } catch (SQLException e) {
-            if (e.getSQLState().equals("23000")) { // Duplicate username
+            if (e.getSQLState().equals("23000")) { // constraint violation, Duplicate username
                 logger.warning("Duplicate username attempted: " + username);
                 throw new InvalidInputException("Username already exists");
             }
@@ -40,21 +46,25 @@ public class UserDAO implements IUserDAO {
         }
     }
     @Override
+    // Returns a User object upon successful login
     public User loginUser(String username, String password) throws InvalidInputException, DatabaseException {
         ValidationUtil.validateUsername(username);
         ValidationUtil.validatePassword(password);
 
+        // SQL command to fetch user details from the database by username
         String sql = "SELECT id, username, password FROM users WHERE username = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, username.trim());
-            ResultSet rs = stmt.executeQuery();
 
-            if (rs.next()) {
-                String storedHash = rs.getString("password");
-                if (PasswordUtil.verifyPassword(password, storedHash)) {
-                    logger.info("User logged in: " + username);
+            // ResultSet is a Java object that holds the data retrieved from a database after executing a SQL SELECT query
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) { // Checks if a user with that username was found, then it moves the cursor to the first result row.
+                String storedHash = rs.getString("password"); // Retrieves the hashed password
+
+                if (PasswordUtil.verifyPassword(password, storedHash)) { // Compares it with the input password
+                    logger.info("User logged in: " + username); // Logs successful login
                     return new User(rs.getInt("id"), rs.getString("username"), storedHash);
                 }
             }

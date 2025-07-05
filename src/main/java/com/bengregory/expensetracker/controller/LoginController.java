@@ -15,8 +15,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-
 import java.io.IOException;
+
+/*
+    Manages the login screen (login.fxml), validates credentials via UserDAO, and sets the logged-in user in SessionManager.
+ */
 
 public class LoginController {
     @FXML private TextField usernameField;
@@ -36,9 +39,10 @@ public class LoginController {
     private void handleLogin() {
         String username = usernameField.getText();
         try {
-            User user = userDAO.loginUser(username, passwordField.getText());
-            SessionManager.getInstance().setLoggedInUser(user);
+            User user = userDAO.loginUser(username, passwordField.getText()); // Calls loginUser to authenticate, receiving a User object
+            SessionManager.getInstance().setLoggedInUser(user); // Stores the User object on successful login.
             logger.info("User logged in: " + username);
+
             // Load dashboard (placeholder for now)
             Parent dashboard = FXMLLoader.load(getClass().getResource("/com.bengregory.expensetracker.view/dashboard.fxml"));
             Stage stage = (Stage) usernameField.getScene().getWindow();

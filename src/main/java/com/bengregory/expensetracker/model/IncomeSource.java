@@ -1,6 +1,8 @@
 package com.bengregory.expensetracker.model;
 
 // Enums for Income
+// Enums define a fixed set of constants, useful for fields with limited valid values
+
 public enum IncomeSource {
     SALARY("Salary"),
     FREELANCE("Freelance"),

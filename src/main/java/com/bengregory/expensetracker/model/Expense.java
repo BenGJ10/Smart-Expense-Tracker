@@ -1,8 +1,13 @@
 package com.bengregory.expensetracker.model;
 
 import com.bengregory.expensetracker.util.InvalidInputException;
-
 import java.time.LocalDateTime;
+
+/*
+    Model classes encapsulate data with private fields and public getters/setters.
+    These act as Data Transfer Objects (DTOs) between layers (e.g., DAO layer to controller layer).
+
+ */
 
 public class Expense {
     private int id;

@@ -13,8 +13,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-
 import java.io.IOException;
+
+/*
+    Manages the registration screen (register.fxml), creates new users via UserDAO, and navigates back to login.
+ */
 
 public class RegisterController {
     @FXML private TextField usernameField;
@@ -34,11 +37,11 @@ public class RegisterController {
     private void handleRegister() {
         String username = usernameField.getText();
         try {
-            userDAO.registerUser(username, passwordField.getText());
+            userDAO.registerUser(username, passwordField.getText()); // Calls registerUser to create a new user.
             logger.info("User registered: " + username);
             errorLabel.setText("Registration successful! Please login.");
             // Optionally switch to login screen
-            handleBack();
+            handleBack(); // Returns to login.fxml after registration.
         } catch (InvalidInputException | DatabaseException e) {
             logger.warning("Registration failed for user " + username + ": " + e.getMessage());
             errorLabel.setText(e.getMessage());

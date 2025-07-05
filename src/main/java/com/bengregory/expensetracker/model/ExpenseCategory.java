@@ -1,6 +1,7 @@
 package com.bengregory.expensetracker.model;
 
 // Enums for Expense
+// Enums define a fixed set of constants, useful for fields with limited valid values
 public enum ExpenseCategory {
     FOOD("Food"),
     EDUCATIONAL("Educational"),
