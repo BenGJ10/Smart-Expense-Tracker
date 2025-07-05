@@ -16,21 +16,21 @@ public class UserDAOTest {
         userDAO = new UserDAO();
     }
 
-    @AfterEach
-    void cleanUp() {
-        try {
-            UserDAODeletionTest.deleteTestBudgets();
-            UserDAODeletionTest.deleteTestIncomes();
-            UserDAODeletionTest.deleteTestExpenses();
-            UserDAODeletionTest.deleteTestUsers();
-        } catch (DatabaseException e) {
-            System.err.println("Cleanup failed: " + e.getMessage());
-        }
-    }
+//    @AfterEach
+//    void cleanUp() {
+//        try {
+//            UserDAODeletionTest.deleteTestBudgets();
+//            UserDAODeletionTest.deleteTestIncomes();
+//            UserDAODeletionTest.deleteTestExpenses();
+//            UserDAODeletionTest.deleteTestUsers();
+//        } catch (DatabaseException e) {
+//            System.err.println("Cleanup failed: " + e.getMessage());
+//        }
+//    }
 
     @Test
     void testRegisterAndLoginUser() {
-        String username = "testuser" + System.currentTimeMillis();
+        String username = "Testuser" + System.currentTimeMillis();
         String password = "Password123";
 
         try {
@@ -46,7 +46,7 @@ public class UserDAOTest {
 
     @Test
     void testRegisterDuplicateUsername() {
-        String username = "testuser" + System.currentTimeMillis();
+        String username = "Testuser" + System.currentTimeMillis();
         String password = "Password123";
 
         try {
