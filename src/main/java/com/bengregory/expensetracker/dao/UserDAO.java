@@ -6,6 +6,7 @@ import com.bengregory.expensetracker.util.DatabaseException;
 import com.bengregory.expensetracker.util.InvalidInputException;
 import com.bengregory.expensetracker.util.PasswordUtil;
 import com.bengregory.expensetracker.util.ValidationUtil;
+import com.bengregory.expensetracker.util.CustomLogger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,6 +14,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class UserDAO implements IUserDAO {
+    private final CustomLogger logger = CustomLogger.getInstance();
+
     @Override
     public void registerUser(String username, String password) throws InvalidInputException, DatabaseException {
         ValidationUtil.validateUsername(username);
@@ -26,10 +29,13 @@ public class UserDAO implements IUserDAO {
             stmt.setString(1, username.trim());
             stmt.setString(2, hashedPassword);
             stmt.executeUpdate();
+            logger.info("User registered successfully: " + username);
         } catch (SQLException e) {
             if (e.getSQLState().equals("23000")) { // Duplicate username
+                logger.warning("Duplicate username attempted: " + username);
                 throw new InvalidInputException("Username already exists");
             }
+            logger.error("Failed to register user: " + username, e);
             throw new DatabaseException("Failed to register user", e);
         }
     }
@@ -48,11 +54,14 @@ public class UserDAO implements IUserDAO {
             if (rs.next()) {
                 String storedHash = rs.getString("password");
                 if (PasswordUtil.verifyPassword(password, storedHash)) {
+                    logger.info("User logged in: " + username);
                     return new User(rs.getInt("id"), rs.getString("username"), storedHash);
                 }
             }
+            logger.warning("Invalid login attempt for user: " + username);
             throw new InvalidInputException("Invalid username or password");
         } catch (SQLException e) {
+            logger.error("Failed to login user: " + username, e);
             throw new DatabaseException("Failed to login user", e);
         }
     }
@@ -67,12 +76,16 @@ public class UserDAO implements IUserDAO {
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
+                logger.info("Retrieved user by ID: " + id);
                 return new User(rs.getInt("id"), rs.getString("username"), rs.getString("password"));
             }
+            logger.warning("User not found for ID: " + id);
             throw new DatabaseException("User with ID " + id + " not found");
         } catch (SQLException e) {
+            logger.error("Failed to retrieve user by ID: " + id, e);
             throw new DatabaseException("Failed to retrieve user", e);
         } catch (InvalidInputException e) {
+            logger.error("Invalid user data for ID: " + id, e);
             throw new DatabaseException("Invalid user data", e);
         }
     }

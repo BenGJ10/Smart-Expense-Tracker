@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import com.bengregory.expensetracker.model.User;
+import com.bengregory.expensetracker.util.CustomLogger;
 
 import java.io.IOException;
 
