@@ -16,17 +16,17 @@ public class UserDAOTest {
         userDAO = new UserDAO();
     }
 
-//    @AfterEach
-//    void cleanUp() {
-//        try {
-//            UserDAODeletionTest.deleteTestBudgets();
-//            UserDAODeletionTest.deleteTestIncomes();
-//            UserDAODeletionTest.deleteTestExpenses();
-//            UserDAODeletionTest.deleteTestUsers();
-//        } catch (DatabaseException e) {
-//            System.err.println("Cleanup failed: " + e.getMessage());
-//        }
-//    }
+    @AfterEach
+    void cleanUp() {
+        try {
+            UserDAODeletionTest.deleteTestBudgets();
+            UserDAODeletionTest.deleteTestIncomes();
+            UserDAODeletionTest.deleteTestExpenses();
+            UserDAODeletionTest.deleteTestUsers();
+        } catch (DatabaseException e) {
+            System.err.println("Cleanup failed: " + e.getMessage());
+        }
+    }
 
     @Test
     void testRegisterAndLoginUser() {
