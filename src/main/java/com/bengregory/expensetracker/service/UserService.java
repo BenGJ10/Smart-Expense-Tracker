@@ -35,4 +35,21 @@ public class UserService implements IUserService {
         logger.info("User retrieved by ID: " + id);
         return user;
     }
+
+    @Override
+    public void updateUser(User user) throws InvalidInputException, DatabaseException {
+        String username = user.getUsername();
+        String password = user.getPassword();
+
+        logger.info("Attempting to update user: " + username);
+        
+        try {
+            userDAO.updateUser(user);
+            logger.info("User updated successfully: " + username);
+        } catch (DatabaseException e) {
+            logger.error("Failed to update user: " + username, e);
+            throw e;
+        }
+    }
+
 }

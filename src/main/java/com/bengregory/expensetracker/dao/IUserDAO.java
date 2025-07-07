@@ -14,4 +14,5 @@ public interface IUserDAO {
     void registerUser(String username, String password) throws InvalidInputException, DatabaseException;
     User loginUser(String username, String password) throws InvalidInputException, DatabaseException;
     User getUserById(int id) throws DatabaseException;
+    public void updateUser(User user)   throws InvalidInputException, DatabaseException;
 }

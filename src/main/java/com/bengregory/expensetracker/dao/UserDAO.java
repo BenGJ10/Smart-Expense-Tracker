@@ -99,4 +99,40 @@ public class UserDAO implements IUserDAO {
             throw new DatabaseException("Invalid user data", e);
         }
     }
+    @Override
+    public void updateUser(User user) throws InvalidInputException, DatabaseException {
+        String username = user.getUsername().trim();
+        String password = user.getPassword();
+
+        ValidationUtil.validateUsername(username);
+        ValidationUtil.validatePassword(password);
+
+        String hashedPassword = PasswordUtil.hashPassword(password);
+
+        String sql = "UPDATE users SET username = ?, password = ? WHERE id = ?";
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, username);
+            stmt.setString(2, hashedPassword);
+            stmt.setInt(3, user.getId());
+
+            int rowsAffected = stmt.executeUpdate();
+            if (rowsAffected == 0) {
+                logger.warning("No user found to update with ID: " + user.getId());
+                throw new DatabaseException("No user found to update");
+            }
+            logger.info("Updated user profile: " + username);
+
+        } catch (SQLException e) {
+            if (e.getSQLState().equals("23000")) { // likely duplicate username
+                logger.warning("Duplicate username on update attempt: " + username);
+                throw new InvalidInputException("Username already exists");
+            }
+            logger.error("Failed to update user: " + username, e);
+            throw new DatabaseException("Failed to update user profile", e);
+        }
+    }
+
 }
