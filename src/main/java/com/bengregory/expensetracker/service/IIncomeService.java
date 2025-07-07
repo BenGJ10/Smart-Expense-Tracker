@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface IIncomeService {
     void addIncome(Income income) throws InvalidInputException, DatabaseException;
-    List<Income> getIncomesByUser() throws DatabaseException;
+    List<Income> getIncomeByUser() throws DatabaseException;
     void updateIncome(Income income) throws InvalidInputException, DatabaseException;
     void deleteIncome(int incomeId) throws DatabaseException;
 }
