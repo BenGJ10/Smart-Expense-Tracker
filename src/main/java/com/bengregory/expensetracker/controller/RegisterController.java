@@ -1,10 +1,10 @@
 package com.bengregory.expensetracker.controller;
 
-import com.bengregory.expensetracker.dao.IUserDAO;
-import com.bengregory.expensetracker.dao.UserDAO;
+import com.bengregory.expensetracker.service.IUserService;
+import com.bengregory.expensetracker.service.UserService;
+import com.bengregory.expensetracker.util.CustomLogger;
 import com.bengregory.expensetracker.util.DatabaseException;
 import com.bengregory.expensetracker.util.InvalidInputException;
-import com.bengregory.expensetracker.util.CustomLogger;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -13,52 +13,52 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import java.io.IOException;
 
-/*
-    Manages the registration screen (register.fxml), creates new users via UserDAO, and navigates back to login.
- */
+import java.io.IOException;
 
 public class RegisterController {
     @FXML private TextField usernameField;
     @FXML private PasswordField passwordField;
     @FXML private Label errorLabel;
-    private IUserDAO userDAO;
-    private CustomLogger logger;
-
-    @FXML
-    public void initialize() {
-        userDAO = new UserDAO();
-        logger = CustomLogger.getInstance();
-        logger.info("Register screen initialized");
-    }
+    private final IUserService userService = new UserService();
+    private final CustomLogger logger = CustomLogger.getInstance();
 
     @FXML
     private void handleRegister() {
-        String username = usernameField.getText();
+        String username = usernameField.getText().trim();
+        String password = passwordField.getText();
         try {
-            userDAO.registerUser(username, passwordField.getText()); // Calls registerUser to create a new user.
-            logger.info("User registered: " + username);
-            errorLabel.setText("Registration successful! Please login.");
-            // Optionally switch to login screen
-            handleBack(); // Returns to login.fxml after registration.
-        } catch (InvalidInputException | DatabaseException e) {
-            logger.warning("Registration failed for user " + username + ": " + e.getMessage());
+            logger.info("Registration attempt for user: " + username);
+            userService.registerUser(username, password);
+            errorLabel.setText("Registration successful!");
+            logger.info("Navigating to login screen after registration");
+            Parent login = FXMLLoader.load(getClass().getResource("/com/bengregory/expensetracker/view/login.fxml"));
+            Stage stage = (Stage) usernameField.getScene().getWindow();
+            stage.setScene(new Scene(login, 600, 400));
+            stage.show();
+        } catch (InvalidInputException e) {
             errorLabel.setText(e.getMessage());
+            logger.warning("Registration failed: " + e.getMessage());
+        } catch (DatabaseException e) {
+            errorLabel.setText("Database error occurred");
+            logger.error("Database error during registration for user: " + username, e);
+        } catch (IOException e) {
+            errorLabel.setText("Failed to load login screen");
+            logger.error("Failed to load login screen for user: " + username, e);
         }
     }
 
     @FXML
     private void handleBack() {
         try {
-            logger.info("Navigating back to login screen");
+            logger.info("Navigating to login screen");
             Parent login = FXMLLoader.load(getClass().getResource("/com.bengregory.expensetracker.view/login.fxml"));
             Stage stage = (Stage) usernameField.getScene().getWindow();
             stage.setScene(new Scene(login, 600, 400));
             stage.show();
         } catch (IOException e) {
-            logger.error("Failed to load login screen", e);
             errorLabel.setText("Failed to load login screen");
+            logger.error("Failed to load login screen", e);
         }
     }
 }
