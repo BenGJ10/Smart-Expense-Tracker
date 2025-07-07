@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox fx:id="root"
+      alignment="CENTER"
+      spacing="30"
+      minWidth="800.0"
+      minHeight="600.0"
+      styleClass="page"
+      stylesheets="@styles.css"
+      xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
+      VBox.vgrow="ALWAYS"
+      fx:controller="com.bengregory.expensetracker.controller.AddIncomeController">
+
+    <!-- Title -->
+    <Label text="Manage your Income" styleClass="title-label"/>
+
+    <!-- Form for adding income -->
+    <GridPane fx:id="incomeForm" hgap="15" vgap="15" alignment="CENTER">
+
+        <Label text="Amount:" styleClass="summary-label" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+        <TextField fx:id="amountField" styleClass="input-field" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+        <Label text="Source:" styleClass="summary-label" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+        <ComboBox fx:id="sourceComboBox" styleClass="input-field" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+        <Label text="Description:" styleClass="summary-label" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+        <TextField fx:id="descriptionField" styleClass="input-field" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+
+        <Button fx:id="addIncomeButton" text="Add Income" onAction="#handleAddIncome"
+                styleClass="action-button" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+    </GridPane>
+
+    <!-- Table for viewing incomes -->
+    <TableView fx:id="incomeTable" styleClass="table-view" prefHeight="250">
+        <columns>
+            <TableColumn fx:id="idColumn" text="ID" prefWidth="70"/>
+            <TableColumn fx:id="amountColumn" text="Amount" prefWidth="120"/>
+            <TableColumn fx:id="sourceColumn" text="Source" prefWidth="120"/>
+            <TableColumn fx:id="dateColumn" text="Date" prefWidth="120"/>
+            <TableColumn fx:id="descriptionColumn" text="Description" prefWidth="150"/>
+            <TableColumn fx:id="actionColumn" text="Actions" prefWidth="170"/>
+        </columns>
+    </TableView>
+
+    <!-- Back button -->
+    <Button fx:id="backButton" text="Back to Dashboard" onAction="#handleBackToDashboard" styleClass="nav-button"/>
+    <Label fx:id="errorLabel" text="" styleClass="error-label"/>
+</VBox>

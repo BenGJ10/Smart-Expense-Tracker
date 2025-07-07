@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox fx:id="root"
+      alignment="CENTER"
+      spacing="30"
+      minWidth="800.0"
+      minHeight="600.0"
+      styleClass="page"
+      stylesheets="@styles.css"
+      xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.bengregory.expensetracker.controller.ProfileController">
+    <!-- Title -->
+    <Label text="User Profile" styleClass="title-label"/>
+
+    <!-- Form for editing profile -->
+    <GridPane fx:id="profileForm" hgap="15" vgap="15" alignment="CENTER">
+        <Label text="Username:" styleClass="summary-label" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+        <TextField fx:id="usernameField" styleClass="input-field" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+        <Label text="New Password:" styleClass="summary-label" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+        <PasswordField fx:id="passwordField" styleClass="input-field" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+        <Button fx:id="saveButton" text="Save Changes" onAction="#handleSaveProfile" styleClass="action-button" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+    </GridPane>
+
+    <!-- Back button -->
+    <Button fx:id="backButton" text="Back to Dashboard" onAction="#handleBackToDashboard" styleClass="nav-button"/>
+    <Label fx:id="errorLabel" text="" styleClass="error-label"/>
+</VBox>
