@@ -68,12 +68,12 @@ public class DashboardController {
 
     @FXML
     private void handleAddExpense() {
-        navigateTo("/com.bengregory.expensetracker.view.add_expense.fxml", "Add Expense");
+        navigateTo("/com.bengregory.expensetracker.view/add_expense.fxml", "Add Expense");
     }
 
     @FXML
     private void handleAddBudget() {
-        navigateTo("/com.bengregory.expensetracker.view.add_budget.fxml", "Add Budget");
+        navigateTo("/com.bengregory.expensetracker.view/add_budget.fxml", "Add Budget");
     }
 
     @FXML

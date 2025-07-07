@@ -11,28 +11,36 @@
       stylesheets="@styles.css"
       xmlns="http://javafx.com/javafx/21"
       xmlns:fx="http://javafx.com/fxml/1"
+      VBox.vgrow="ALWAYS"
       fx:controller="com.bengregory.expensetracker.controller.AddExpenseController">
+
     <!-- Title -->
     <Label text="Manage Expenses" styleClass="title-label"/>
 
     <!-- Form for adding expense -->
     <GridPane fx:id="expenseForm" hgap="15" vgap="15" alignment="CENTER">
+
         <Label text="Amount:" styleClass="summary-label" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
         <TextField fx:id="amountField" styleClass="input-field" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
         <Label text="Category:" styleClass="summary-label" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
-        <TextField fx:id="categoryField" styleClass="input-field" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
-        <Label text="Date (YYYY-MM-DD):" styleClass="summary-label" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
-        <TextField fx:id="dateField" styleClass="input-field" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
-        <Button fx:id="addExpenseButton" text="Add Expense" onAction="#handleAddExpense" styleClass="action-button" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+        <ComboBox fx:id="categoryComboBox" styleClass="input-field" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+        <Label text="Description:" styleClass="summary-label" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+        <TextField fx:id="descriptionField" styleClass="input-field" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+
+        <Button fx:id="addExpenseButton" text="Add Expense" onAction="#handleAddExpense"
+                styleClass="action-button" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
     </GridPane>
 
     <!-- Table for viewing expenses -->
-    <TableView fx:id="expenseTable" styleClass="table-view">
+    <TableView fx:id="expenseTable" styleClass="table-view" prefHeight="250">
         <columns>
-            <TableColumn fx:id="idColumn" text="ID" prefWidth="50"/>
-            <TableColumn fx:id="amountColumn" text="Amount" prefWidth="100"/>
+            <TableColumn fx:id="idColumn" text="ID" prefWidth="70"/>
+            <TableColumn fx:id="amountColumn" text="Amount" prefWidth="120"/>
             <TableColumn fx:id="categoryColumn" text="Category" prefWidth="150"/>
             <TableColumn fx:id="dateColumn" text="Date" prefWidth="120"/>
+            <TableColumn fx:id="descriptionColumn" text="Description" prefWidth="150"/>
             <TableColumn fx:id="actionColumn" text="Actions" prefWidth="150"/>
         </columns>
     </TableView>
