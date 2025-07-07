@@ -35,13 +35,14 @@ public class IncomeDAO implements IIncomeDAO {
             throw new DatabaseException("No user logged in");
         }
 
-        String sql = "INSERT INTO income (user_id, amount, source, date_time) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO income (user_id, amount, source, date_time, description) VALUES (?, ?, ?, ?, ?)";
         try (Connection conn = DatabaseConnection.getConnection(); // connection object to database
              PreparedStatement stmt = conn.prepareStatement(sql)) { // precompiled SQL command with placeholders
             stmt.setInt(1, SessionManager.getInstance().getLoggedInUser().getId());
             stmt.setDouble(2, income.getAmount());
             stmt.setString(3, income.getSource().name());
             stmt.setObject(4, income.getDateTime());
+            stmt.setString(5, income.getDescription());
             stmt.executeUpdate();
             logger.info("Income added for user ID: " + SessionManager.getInstance().getLoggedInUser().getId());
         } catch (SQLException e) {
