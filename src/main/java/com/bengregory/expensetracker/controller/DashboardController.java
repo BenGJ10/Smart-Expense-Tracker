@@ -1,11 +1,14 @@
 package com.bengregory.expensetracker.controller;
 
+import com.bengregory.expensetracker.model.Expense;
+import com.bengregory.expensetracker.model.Income;
 import com.bengregory.expensetracker.model.User;
 import com.bengregory.expensetracker.service.IExpenseService;
 import com.bengregory.expensetracker.service.IIncomeService;
 import com.bengregory.expensetracker.service.ExpenseService;
 import com.bengregory.expensetracker.service.IncomeService;
 import com.bengregory.expensetracker.util.CustomLogger;
+import com.bengregory.expensetracker.util.DatabaseException;
 import com.bengregory.expensetracker.util.SessionManager;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,6 +18,11 @@ import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+
 
 public class DashboardController {
     @FXML private Label welcomeLabel;
@@ -28,6 +36,7 @@ public class DashboardController {
     private final IIncomeService incomeService = new IncomeService();
     private final IExpenseService expenseService = new ExpenseService();
     private final CustomLogger logger = CustomLogger.getInstance();
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     @FXML
     public void initialize() {
@@ -44,17 +53,37 @@ public class DashboardController {
 
     private void updateSummary() {
         try {
-            // Placeholder: Replace with actual service calls
-            double totalIncome = 0.0; // incomeService.getTotalIncome();
-            double totalExpense = 0.0; // expenseService.getTotalExpenses();
+            double totalIncome = incomeService.getTotalIncome();
+            double totalExpense = expenseService.getTotalExpenses();
             double balance = totalIncome - totalExpense;
             totalIncomeLabel.setText(String.format("₹%.2f", totalIncome));
             totalExpenseLabel.setText(String.format("₹%.2f", totalExpense));
             currentBalanceLabel.setText(String.format("₹%.2f", balance));
-            // Placeholder: Update activity labels with recent transactions
-            activity1.setText("Recent: Added income ₹1000");
-            activity2.setText("Recent: Added expense ₹500");
-            activity3.setText("Recent: Set budget ₹2000");
+
+            List<Object> transactions = new ArrayList<>();
+            transactions.addAll(incomeService.getRecentIncomes(3));
+            transactions.addAll(expenseService.getRecentExpenses(3));
+            transactions.sort(Comparator.comparing(o -> {
+                if (o instanceof Income) return ((Income) o).getDateTime();
+                return ((Expense) o).getDateTime();
+            }, Comparator.reverseOrder()));
+            List<Object> recent = transactions.stream().limit(3).toList();
+
+            Label[] activityLabels = {activity1, activity2, activity3};
+            for (int i = 0; i < activityLabels.length; i++) {
+                if (i < recent.size()) {
+                    Object transaction = recent.get(i);
+                    if (transaction instanceof Income income) {
+                        activityLabels[i].setText(String.format("Income: ₹%.2f (%s) on %s",
+                                income.getAmount(), income.getSource().getDisplayName(), income.getDateTime().toLocalDate().format(formatter)));
+                    } else if (transaction instanceof Expense expense) {
+                        activityLabels[i].setText(String.format("Expense: ₹%.2f (%s) on %s",
+                                expense.getAmount(), expense.getCategory().getDisplayName(), expense.getDateTime().toLocalDate().format(formatter)));
+                    }
+                } else {
+                    activityLabels[i].setText("-");
+                }
+            }
         } catch (Exception e) {
             logger.error("Failed to update dashboard summaries", e);
             errorLabel.setText("Error loading summaries");
