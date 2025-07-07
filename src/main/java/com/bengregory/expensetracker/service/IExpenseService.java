@@ -11,4 +11,6 @@ public interface IExpenseService {
     List<Expense> getExpensesByUser() throws DatabaseException;
     void updateExpense(Expense expense) throws InvalidInputException, DatabaseException;
     void deleteExpense(int expenseId) throws DatabaseException;
+    double getTotalExpenses() throws DatabaseException;
+    List<Expense> getRecentExpenses(int limit) throws DatabaseException;
 }

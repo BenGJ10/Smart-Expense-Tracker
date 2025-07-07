@@ -11,4 +11,6 @@ public interface IIncomeService {
     List<Income> getIncomeByUser() throws DatabaseException;
     void updateIncome(Income income) throws InvalidInputException, DatabaseException;
     void deleteIncome(int incomeId) throws DatabaseException;
+    double getTotalIncome() throws DatabaseException;
+    List<Income> getRecentIncomes(int limit) throws DatabaseException;
 }

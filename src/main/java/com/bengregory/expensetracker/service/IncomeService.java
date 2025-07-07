@@ -58,4 +58,35 @@ public class IncomeService implements IIncomeService {
         incomeDAO.deleteIncome(incomeId);
         logger.info("Income deleted successfully: ID " + incomeId);
     }
+
+    @Override
+    public double getTotalIncome() throws DatabaseException {
+        try {
+            int userId = SessionManager.getInstance().getLoggedInUser().getId();
+            List<Income> incomes = incomeDAO.getIncomeByUserId(userId);
+            double total = incomes.stream().mapToDouble(Income::getAmount).sum();
+            logger.info("Calculated total income: ₹" + total + " for user ID: " + userId);
+            return total;
+        } catch (Exception e) {
+            logger.error("Failed to calculate total income", e);
+            throw new DatabaseException("Failed to calculate total income: " + e.getMessage());
+        }
+    }
+
+    @Override
+    public List<Income> getRecentIncomes(int limit) throws DatabaseException {
+        try {
+            int userId = SessionManager.getInstance().getLoggedInUser().getId();
+            List<Income> incomes = incomeDAO.getIncomeByUserId(userId);
+            List<Income> recent = incomes.stream()
+                    .sorted((i1, i2) -> i2.getDateTime().compareTo(i1.getDateTime()))
+                    .limit(limit)
+                    .toList();
+            logger.info("Retrieved " + recent.size() + " recent incomes for user ID: " + userId);
+            return recent;
+        } catch (Exception e) {
+            logger.error("Failed to retrieve recent incomes", e);
+            throw new DatabaseException("Failed to retrieve recent incomes: " + e.getMessage());
+        }
+    }
 }

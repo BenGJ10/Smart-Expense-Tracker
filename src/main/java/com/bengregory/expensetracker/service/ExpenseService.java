@@ -58,4 +58,35 @@ public class ExpenseService implements IExpenseService {
         expenseDAO.deleteExpense(expenseId);
         logger.info("Expense deleted successfully: ID " + expenseId);
     }
+
+    @Override
+    public double getTotalExpenses() throws DatabaseException {
+        try {
+            int userId = SessionManager.getInstance().getLoggedInUser().getId();
+            List<Expense> expenses = expenseDAO.getExpensesByUserId(userId);
+            double total = expenses.stream().mapToDouble(Expense::getAmount).sum();
+            logger.info("Calculated total expenses: ₹" + total + " for user ID: " + userId);
+            return total;
+        } catch (Exception e) {
+            logger.error("Failed to calculate total expenses", e);
+            throw new DatabaseException("Failed to calculate total expenses: " + e.getMessage());
+        }
+    }
+
+    @Override
+    public List<Expense> getRecentExpenses(int limit) throws DatabaseException {
+        try {
+            int userId = SessionManager.getInstance().getLoggedInUser().getId();
+            List<Expense> expenses = expenseDAO.getExpensesByUserId(userId);
+            List<Expense> recent = expenses.stream()
+                    .sorted((e1, e2) -> e2.getDateTime().compareTo(e1.getDateTime()))
+                    .limit(limit)
+                    .toList();
+            logger.info("Retrieved " + recent.size() + " recent expenses for user ID: " + userId);
+            return recent;
+        } catch (Exception e) {
+            logger.error("Failed to retrieve recent expenses", e);
+            throw new DatabaseException("Failed to retrieve recent expenses: " + e.getMessage());
+        }
+    }
 }
