@@ -2,6 +2,12 @@ package com.bengregory.expensetracker.dao;
 
 import com.bengregory.expensetracker.model.Budget;
 import com.bengregory.expensetracker.model.ExpenseCategory;
+import com.bengregory.expensetracker.util.CustomLogger;
+import com.bengregory.expensetracker.util.DatabaseConnection;
+import com.bengregory.expensetracker.util.ValidationUtil;
+import com.bengregory.expensetracker.util.DatabaseException;
+import com.bengregory.expensetracker.util.InvalidInputException;
+import com.bengregory.expensetracker.util.SessionManager;
 
 import java.sql.*;
 import java.time.LocalDate;

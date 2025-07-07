@@ -11,7 +11,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("/com.bengregory.expensetracker.view/login.fxml"));
         primaryStage.setTitle("Smart Expense Tracker");
-        primaryStage.setScene(new Scene(root, 600, 400));
+        primaryStage.setScene(new Scene(root, 800, 600));
         primaryStage.show();
     }
     // Use this command to run the Main file mvn clean javafx:run

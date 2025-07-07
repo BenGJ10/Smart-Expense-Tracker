@@ -37,7 +37,7 @@ public class DashboardController {
         try {
             Parent login = FXMLLoader.load(getClass().getResource("/com.bengregory.expensetracker.view/login.fxml"));
             Stage stage = (Stage) welcomeLabel.getScene().getWindow();
-            stage.setScene(new Scene(login, 600, 400));
+            stage.setScene(new Scene(login, 800, 600));
             stage.show();
         } catch (IOException e) {
             logger.error("Failed to load login screen", e);

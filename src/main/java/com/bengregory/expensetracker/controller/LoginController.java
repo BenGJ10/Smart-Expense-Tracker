@@ -35,7 +35,7 @@ public class LoginController {
             logger.info("Navigating to dashboard for user: " + username);
             Parent dashboard = FXMLLoader.load(getClass().getResource("/com.bengregory.expensetracker.view/dashboard.fxml"));
             Stage stage = (Stage) usernameField.getScene().getWindow();
-            stage.setScene(new Scene(dashboard, 600, 400));
+            stage.setScene(new Scene(dashboard, 800, 600));
             stage.show();
         } catch (InvalidInputException e) {
             errorLabel.setText(e.getMessage());
@@ -55,7 +55,7 @@ public class LoginController {
             logger.info("Navigating to registration screen");
             Parent register = FXMLLoader.load(getClass().getResource("/com.bengregory.expensetracker.view/register.fxml"));
             Stage stage = (Stage) usernameField.getScene().getWindow();
-            stage.setScene(new Scene(register, 600, 400));
+            stage.setScene(new Scene(register, 800, 600));
             stage.show();
         } catch (IOException e) {
             errorLabel.setText("Failed to load registration screen");
