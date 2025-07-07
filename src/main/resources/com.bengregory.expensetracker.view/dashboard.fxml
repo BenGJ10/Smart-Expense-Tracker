@@ -12,6 +12,7 @@
       stylesheets="@styles.css"
       xmlns="http://javafx.com/javafx/17.0.12"
       xmlns:fx="http://javafx.com/fxml/1"
+      VBox.vgrow="ALWAYS"
       fx:controller="com.bengregory.expensetracker.controller.DashboardController">
 
     <!-- Welcome Label -->
@@ -64,14 +65,13 @@
 
     <!-- Recent Activity -->
     <VBox fx:id="recentActivityBox"
-          spacing="8"
+          spacing="10"
           alignment="CENTER">
         <Label text="Recent Activity" styleClass="welcome-label" />
-        <Label fx:id="activity1" text="-" styleClass="activity-label" />
-        <Label fx:id="activity2" text="-" styleClass="activity-label" />
-        <Label fx:id="activity3" text="-" styleClass="activity-label" />
+        <Label fx:id="activity1" text="" styleClass="activity-label" prefWidth="400" />
+        <Label fx:id="activity2" text="" styleClass="activity-label" prefWidth="400" />
+        <Label fx:id="activity3" text="" styleClass="activity-label" prefWidth="400" />
     </VBox>
-
     <!-- Error Label -->
     <Label fx:id="errorLabel" text="" styleClass="error-label" />
 
