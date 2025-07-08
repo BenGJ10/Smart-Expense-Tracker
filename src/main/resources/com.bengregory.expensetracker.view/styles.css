@@ -37,7 +37,7 @@
        -fx-background-radius: 8;
        -fx-cursor: hand;
    }
-   .primary-button, .nav-button:hover {
+   .primary-button:hover, .nav-button:hover {
        -fx-background-color: #1b5ca6;
    }
 
@@ -50,7 +50,7 @@
        -fx-background-radius: 8;
        -fx-cursor: hand;
    }
-   .danger-button, .logout-button:hover {
+   .danger-button:hover, .logout-button:hover {
        -fx-background-color: #b30000;
    }
 
