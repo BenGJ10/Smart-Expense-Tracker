@@ -155,7 +155,7 @@ public class AddExpenseController {
             stage.setScene(new Scene(root, 800, 600));
             stage.show();
         } catch (IOException e) {
-            logger.error("Failed to load " + fxmlPath, e);
+            logger.error("Failed to load: " + fxmlPath, e);
             errorLabel.setText("Failed to load " + logMessage.toLowerCase() + " page");
         }
     }
