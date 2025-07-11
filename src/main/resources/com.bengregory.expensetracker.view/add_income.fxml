@@ -29,8 +29,10 @@
         <Label text="Description:" styleClass="summary-label" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
         <TextField fx:id="descriptionField" styleClass="input-field" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
 
-        <Button fx:id="addIncomeButton" text="Add Income" onAction="#handleAddIncome"
-                styleClass="action-button" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+        <HBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="3">
+            <Button fx:id="addIncomeButton" text="Add Income" onAction="#handleAddIncome" styleClass="action-button"/>
+            <Button fx:id="clearButton" text="Clear Form" onAction="#handleClearForm" styleClass="action-button"/>
+        </HBox>
     </GridPane>
 
     <!-- Table for viewing incomes -->

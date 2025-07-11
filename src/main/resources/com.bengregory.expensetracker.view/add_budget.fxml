@@ -29,8 +29,10 @@
         <ComboBox fx:id="periodComboBox" promptText="WEEKLY / MONTHLY" styleClass="input-field"
                   GridPane.columnIndex="1" GridPane.rowIndex="2"/>
 
-        <Button fx:id="addBudgetButton" text="Add Budget" onAction="#handleAddBudget"
-                styleClass="action-button" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+        <HBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="3">
+            <Button fx:id="addBudgetButton" text="Add Budget" onAction="#handleAddBudget" styleClass="action-button"/>
+            <Button fx:id="clearButton" text="Clear Form" onAction="#handleClearForm" styleClass="action-button"/>
+        </HBox>
     </GridPane>
 
     <!-- Table for viewing budgets -->

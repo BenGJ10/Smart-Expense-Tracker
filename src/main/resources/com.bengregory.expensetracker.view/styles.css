@@ -58,13 +58,16 @@
        -fx-background-color: #27ae60;
        -fx-text-fill: white;
        -fx-font-size: 16px;
-       -fx-font-weight: 600;
+       -fx-font-weight: semi-bold;
        -fx-padding: 10 20;
        -fx-background-radius: 8;
        -fx-cursor: hand;
    }
    .action-button:hover {
        -fx-background-color: #219653;
+   }
+   .action-button:pressed {
+       -fx-background-color: #1e8449;
    }
 
    /* Input Fields */
