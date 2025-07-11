@@ -18,15 +18,16 @@ public class CustomLogger {
             if (!logDir.exists()) {
                 logDir.mkdirs();
             }
+            // Reset logging
+            LogManager.getLogManager().reset();
             // This will create a custom logger
             String timestamp = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(new Date());
             String logFileName = LOG_DIR + File.separator + "log-" + timestamp + ".log";
             FileHandler fileHandler = new FileHandler(logFileName);
             fileHandler.setFormatter(new SimpleFormatter());
-            LOGGER.addHandler(fileHandler);
-            LOGGER.setLevel(Level.ALL);
+            fileHandler.setLevel(Level.ALL);
 
-            LogManager.getLogManager().reset();
+            LOGGER.setLevel(Level.ALL);
             LOGGER.addHandler(fileHandler); // Nothing will be shown in the console
         } catch (IOException e) {
             System.err.println("Failed to initialize logger: " + e.getMessage());
