@@ -5,8 +5,10 @@ import com.bengregory.expensetracker.model.Income;
 import com.bengregory.expensetracker.model.User;
 import com.bengregory.expensetracker.service.IExpenseService;
 import com.bengregory.expensetracker.service.IIncomeService;
+import com.bengregory.expensetracker.service.IBudgetService;
 import com.bengregory.expensetracker.service.ExpenseService;
 import com.bengregory.expensetracker.service.IncomeService;
+import com.bengregory.expensetracker.service.BudgetService;
 import com.bengregory.expensetracker.util.CustomLogger;
 import com.bengregory.expensetracker.util.DatabaseException;
 import com.bengregory.expensetracker.util.SessionManager;
@@ -22,7 +24,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-
+import java.util.Map;
 
 public class DashboardController {
     @FXML private Label welcomeLabel;
@@ -33,8 +35,10 @@ public class DashboardController {
     @FXML private Label activity2;
     @FXML private Label activity3;
     @FXML private Label errorLabel;
+    @FXML private Label budgetAlertLabel;
     private final IIncomeService incomeService = new IncomeService();
     private final IExpenseService expenseService = new ExpenseService();
+    private final IBudgetService budgetService = new BudgetService();
     private final CustomLogger logger = CustomLogger.getInstance();
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
@@ -84,6 +88,23 @@ public class DashboardController {
                     activityLabels[i].setText("-");
                 }
             }
+
+            Map<String, List<String>> alerts = budgetService.checkBudgetAlerts();
+            List<String> allAlerts = new ArrayList<>();
+            if (alerts.containsKey("MONTHLY")) {
+                allAlerts.addAll(alerts.get("MONTHLY"));
+            }
+            if (alerts.containsKey("WEEKLY")) {
+                allAlerts.addAll(alerts.get("WEEKLY"));
+            }
+            if (!allAlerts.isEmpty()) {
+                budgetAlertLabel.setText(String.join("; ", allAlerts));
+            } else {
+                budgetAlertLabel.setText("");
+            }
+        } catch (DatabaseException e) {
+            logger.error("Failed to update dashboard summaries", e);
+            errorLabel.setText("Error loading summaries or alerts");
         } catch (Exception e) {
             logger.error("Failed to update dashboard summaries", e);
             errorLabel.setText("Error loading summaries");
