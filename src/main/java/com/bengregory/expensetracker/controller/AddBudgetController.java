@@ -2,8 +2,8 @@ package com.bengregory.expensetracker.controller;
 
 import com.bengregory.expensetracker.model.Budget;
 import com.bengregory.expensetracker.model.ExpenseCategory;
-import com.bengregory.expensetracker.service.BudgetService;
 import com.bengregory.expensetracker.service.IBudgetService;
+import com.bengregory.expensetracker.service.BudgetService;
 import com.bengregory.expensetracker.util.CustomLogger;
 import com.bengregory.expensetracker.util.DatabaseException;
 import com.bengregory.expensetracker.util.InvalidInputException;
@@ -17,6 +17,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
@@ -26,10 +27,10 @@ import java.util.Arrays;
 import java.util.stream.Collectors;
 
 public class AddBudgetController {
-
     @FXML private TextField amountField;
     @FXML private ComboBox<String> categoryComboBox;
     @FXML private ComboBox<String> periodComboBox;
+    @FXML private Button addBudgetButton;
     @FXML private TableView<Budget> budgetTable;
     @FXML private TableColumn<Budget, Number> idColumn;
     @FXML private TableColumn<Budget, Number> amountColumn;
@@ -37,14 +38,17 @@ public class AddBudgetController {
     @FXML private TableColumn<Budget, String> periodColumn;
     @FXML private TableColumn<Budget, Void> actionColumn;
     @FXML private Label errorLabel;
-
+    @FXML private Button backButton;
+    @FXML private Button clearButton;
+    @FXML private GridPane budgetForm;
     private final IBudgetService budgetService = new BudgetService();
     private final CustomLogger logger = CustomLogger.getInstance();
+    private Budget editingBudget = null;
 
     @FXML
     public void initialize() {
-        setupTable();
         initializeComboBoxes();
+        setupTable();
         loadBudgets();
     }
 
@@ -54,8 +58,9 @@ public class AddBudgetController {
                         .map(Enum::name)
                         .collect(Collectors.toList())
         ));
-
+        categoryComboBox.setPromptText("Select Category");
         periodComboBox.setItems(FXCollections.observableArrayList("WEEKLY", "MONTHLY"));
+        periodComboBox.setPromptText("Select Period");
     }
 
     private void setupTable() {
@@ -63,7 +68,6 @@ public class AddBudgetController {
         amountColumn.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getAmount()));
         categoryColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCategory().getDisplayName()));
         periodColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getPeriod()));
-
         actionColumn.setCellFactory(param -> new TableCell<>() {
             private final Button editButton = new Button("Edit");
             private final Button deleteButton = new Button("Delete");
@@ -71,9 +75,13 @@ public class AddBudgetController {
             {
                 editButton.setOnAction(event -> {
                     Budget budget = getTableView().getItems().get(getIndex());
-                    errorLabel.setText("Edit not implemented yet");
+                    amountField.setText(String.valueOf(budget.getAmount()));
+                    categoryComboBox.setValue(budget.getCategory().name());
+                    periodComboBox.setValue(budget.getPeriod());
+                    addBudgetButton.setText("Update Budget");
+                    editingBudget = budget;
+                    errorLabel.setText("");
                 });
-
                 deleteButton.setOnAction(event -> {
                     Budget budget = getTableView().getItems().get(getIndex());
                     try {
@@ -103,6 +111,7 @@ public class AddBudgetController {
 
     private void loadBudgets() {
         try {
+            budgetTable.getItems().clear();
             budgetTable.setItems(FXCollections.observableArrayList(budgetService.getBudgetsByUser()));
             logger.info("Loaded budgets for user");
         } catch (DatabaseException e) {
@@ -129,26 +138,50 @@ public class AddBudgetController {
                 throw new InvalidInputException("Invalid category: " + categoryInput);
             }
 
-            Budget budget = new Budget(
-                    0,
-                    SessionManager.getInstance().getLoggedInUser().getId(),
-                    category,
-                    amount,
-                    period,
-                    LocalDate.now()
-            );
-
-            budgetService.addBudget(budget);
-            logger.info("Budget added: ₹" + amount);
-            errorLabel.setText("Budget added successfully");
+            if (editingBudget == null) {
+                Budget budget = new Budget(
+                        0,
+                        SessionManager.getInstance().getLoggedInUser().getId(),
+                        category,
+                        amount,
+                        period,
+                        LocalDate.now()
+                );
+                budgetService.addBudget(budget);
+                logger.info("Added budget: ₹" + amount);
+                errorLabel.setText("Budget added successfully");
+            } else {
+                Budget updatedBudget = new Budget(
+                        editingBudget.getId(),
+                        SessionManager.getInstance().getLoggedInUser().getId(),
+                        category,
+                        amount,
+                        period,
+                        LocalDate.now()
+                );
+                budgetService.updateBudget(updatedBudget);
+                logger.info("Updated budget: ₹" + amount);
+                errorLabel.setText("Budget updated successfully");
+                editingBudget = null;
+                addBudgetButton.setText("Add Budget");
+            }
             clearFields();
             loadBudgets();
-
         } catch (NumberFormatException e) {
-            errorLabel.setText("Amount must be a valid number");
+            logger.warning("Invalid amount format: " + amountField.getText());
+            errorLabel.setText("Invalid amount format");
         } catch (InvalidInputException | DatabaseException e) {
+            logger.error("Failed to process budget", e);
             errorLabel.setText(e.getMessage());
         }
+    }
+
+    @FXML
+    private void handleClearForm() {
+        clearFields();
+        editingBudget = null;
+        addBudgetButton.setText("Add Budget");
+        errorLabel.setText("");
     }
 
     @FXML

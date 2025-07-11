@@ -40,9 +40,11 @@ public class AddExpenseController {
     @FXML private Label errorLabel;
     @FXML private Button addExpenseButton;
     @FXML private Button backButton;
+    @FXML private Button clearButton;
     @FXML private GridPane expenseForm;
     private final IExpenseService expenseService = new ExpenseService();
     private final CustomLogger logger = CustomLogger.getInstance();
+    private Expense editingExpense = null;
 
     @FXML
     public void initialize() {
@@ -68,8 +70,12 @@ public class AddExpenseController {
             {
                 editButton.setOnAction(event -> {
                     Expense expense = getTableView().getItems().get(getIndex());
-                    // Placeholder: Implement edit functionality
-                    errorLabel.setText("Edit not implemented yet");
+                    amountField.setText(String.valueOf(expense.getAmount()));
+                    categoryComboBox.setValue(expense.getCategory());
+                    descriptionField.setText(expense.getDescription());
+                    addExpenseButton.setText("Update Expense");
+                    editingExpense = expense;
+                    errorLabel.setText("");
                 });
                 deleteButton.setOnAction(event -> {
                     Expense expense = getTableView().getItems().get(getIndex());
@@ -118,10 +124,19 @@ public class AddExpenseController {
             if (amount <= 0 || category == null) {
                 throw new InvalidInputException("Amount must be positive and category cannot be empty");
             }
-            Expense expense = new Expense(0, SessionManager.getInstance().getLoggedInUser().getId(), amount, category, date, description);
-            expenseService.addExpense(expense);
-            logger.info("Added expense: ₹" + amount);
-            errorLabel.setText("Expense added successfully");
+            if (editingExpense == null) {
+                Expense expense = new Expense(0, SessionManager.getInstance().getLoggedInUser().getId(), amount, category, date,  description);
+                expenseService.addExpense(expense);
+                logger.info("Added expense: ₹" + amount);
+                errorLabel.setText("Expense added successfully");
+            } else {
+                Expense updatedExpense = new Expense(editingExpense.getId(), SessionManager.getInstance().getLoggedInUser().getId(), amount, category, date,  description);
+                expenseService.updateExpense(updatedExpense);
+                logger.info("Updated expense: ₹" + amount);
+                errorLabel.setText("Expense updated successfully");
+                editingExpense = null;
+                addExpenseButton.setText("Add Expense");
+            }
             clearFields();
             loadExpenses();
         } catch (NumberFormatException e) {
@@ -134,6 +149,14 @@ public class AddExpenseController {
             logger.error("Failed to add expense", e);
             errorLabel.setText(e.getMessage());
         }
+    }
+
+    @FXML
+    private void handleClearForm() {
+        clearFields();
+        editingExpense = null;
+        addExpenseButton.setText("Add Expense");
+        errorLabel.setText("");
     }
 
     @FXML

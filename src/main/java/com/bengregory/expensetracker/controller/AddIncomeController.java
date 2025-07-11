@@ -38,9 +38,11 @@ public class AddIncomeController {
     @FXML private Label errorLabel;
     @FXML private Button addIncomeButton;
     @FXML private Button backButton;
+    @FXML private Button clearButton;
     @FXML private GridPane incomeForm;
     private final IIncomeService incomeService = new IncomeService();
     private final CustomLogger logger = CustomLogger.getInstance();
+    private Income editingIncome = null;
 
     @FXML
     public void initialize() {
@@ -67,7 +69,11 @@ public class AddIncomeController {
             {
                 editButton.setOnAction(event -> {
                     Income income = getTableView().getItems().get(getIndex());
-                    // Placeholder: Implement edit functionality
+                    amountField.setText(String.valueOf(income.getAmount()));
+                    sourceComboBox.setValue(income.getSource());
+                    descriptionField.setText(income.getDescription());
+                    addIncomeButton.setText("Update Income");
+                    editingIncome = income;
                     errorLabel.setText("Edit not implemented yet");
                 });
                 deleteButton.setOnAction(event -> {
@@ -119,10 +125,19 @@ public class AddIncomeController {
             if (amount <= 0 || selectedSource == null) {
                 throw new InvalidInputException("Amount must be positive and source cannot be empty");
             }
-            Income income = new Income(0, SessionManager.getInstance().getLoggedInUser().getId(), amount, selectedSource, date, description);
-            incomeService.addIncome(income);
-            logger.info("Added income: ₹" + amount);
-            errorLabel.setText("Income added successfully");
+            if (editingIncome == null) {
+                Income income = new Income(0, SessionManager.getInstance().getLoggedInUser().getId(), amount, selectedSource, date, description);
+                incomeService.addIncome(income);
+                logger.info("Added income: ₹" + amount);
+                errorLabel.setText("Income added successfully");
+            } else {
+                Income updatedIncome = new Income(editingIncome.getId(), SessionManager.getInstance().getLoggedInUser().getId(), amount, selectedSource, date, description);
+                incomeService.updateIncome(updatedIncome);
+                logger.info("Updated income: ₹" + amount);
+                errorLabel.setText("Income updated successfully");
+                editingIncome = null;
+                addIncomeButton.setText("Add Income");
+            }
             clearFields();
             loadIncome();
         } catch (NumberFormatException e) {
@@ -132,6 +147,13 @@ public class AddIncomeController {
             logger.error("Failed to add income", e);
             errorLabel.setText(e.getMessage());
         }
+    }
+    @FXML
+    private void handleClearForm() {
+        clearFields();
+        editingIncome = null;
+        addIncomeButton.setText("Add Income");
+        errorLabel.setText("");
     }
 
     @FXML
