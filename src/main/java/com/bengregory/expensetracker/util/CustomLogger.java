@@ -1,17 +1,15 @@
 package com.bengregory.expensetracker.util;
 
 import java.io.File;
+import java.util.Date;
 import java.io.IOException;
-import java.util.logging.FileHandler;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.logging.SimpleFormatter;
+import java.util.logging.*;
+import java.text.SimpleDateFormat;
 
 public class CustomLogger {
     private static final Logger LOGGER = Logger.getLogger(CustomLogger.class.getName());
     private static final String LOG_DIR = "logs";
-    private static final String LOG_FILE = LOG_DIR + File.separator + "log";
-    private static CustomLogger instance;
+    private static CustomLogger instance; // only instance of CustomLogger
 
     private CustomLogger() {
         try {
@@ -21,15 +19,21 @@ public class CustomLogger {
                 logDir.mkdirs();
             }
             // This will create a custom logger
-            FileHandler fileHandler = new FileHandler(LOG_FILE, true); // Append mode
+            String timestamp = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(new Date());
+            String logFileName = LOG_DIR + File.separator + "log-" + timestamp + ".log";
+            FileHandler fileHandler = new FileHandler(logFileName);
             fileHandler.setFormatter(new SimpleFormatter());
             LOGGER.addHandler(fileHandler);
             LOGGER.setLevel(Level.ALL);
+
+            LogManager.getLogManager().reset();
+            LOGGER.addHandler(fileHandler); // Nothing will be shown in the console
         } catch (IOException e) {
             System.err.println("Failed to initialize logger: " + e.getMessage());
         }
     }
 
+    // Ensure that only one instance of CustomLogger is ever created
     public static CustomLogger getInstance() {
         if (instance == null) {
             synchronized (CustomLogger.class) {
