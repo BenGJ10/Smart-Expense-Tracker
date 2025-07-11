@@ -38,10 +38,10 @@
         <columns>
             <TableColumn fx:id="idColumn" text="ID" prefWidth="70"/>
             <TableColumn fx:id="amountColumn" text="Amount" prefWidth="120"/>
-            <TableColumn fx:id="categoryColumn" text="Category" prefWidth="150"/>
+            <TableColumn fx:id="categoryColumn" text="Category" prefWidth="120"/>
             <TableColumn fx:id="dateColumn" text="Date" prefWidth="120"/>
             <TableColumn fx:id="descriptionColumn" text="Description" prefWidth="150"/>
-            <TableColumn fx:id="actionColumn" text="Actions" prefWidth="150"/>
+            <TableColumn fx:id="actionColumn" text="Actions" prefWidth="170"/>
         </columns>
     </TableView>
 

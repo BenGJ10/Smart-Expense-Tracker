@@ -37,6 +37,7 @@
               alignment="CENTER"
               hgap="40"
               vgap="15">
+
         <Label text="Total Income:" styleClass="summary-label"
                GridPane.columnIndex="0" GridPane.rowIndex="0" />
         <Label fx:id="totalIncomeLabel" text="₹0.00" styleClass="summary-value"
@@ -71,8 +72,9 @@
         <Label fx:id="activity1" text="" styleClass="activity-label" prefWidth="400" />
         <Label fx:id="activity2" text="" styleClass="activity-label" prefWidth="400" />
         <Label fx:id="activity3" text="" styleClass="activity-label" prefWidth="400" />
+
+        <!-- Budget Alerts -->
+        <Label fx:id="budgetAlertLabel" text="" styleClass="alert-label" wrapText="true"  prefWidth="400" />
     </VBox>
-    <!-- Error Label -->
-    <Label fx:id="errorLabel" text="" styleClass="error-label" />
 
 </VBox>

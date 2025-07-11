@@ -107,13 +107,19 @@
        -fx-padding: 8 0;
    }
 
-   /* Error Messages */
+   /* Alerts and Error Messages */
    .error-label {
        -fx-text-fill: #FF0000;
        -fx-font-size: 16px;
        -fx-alignment: center;
    }
 
+.alert-label {
+    -fx-text-fill: #FFA500;
+    -fx-font-size: 16px;
+    -fx-alignment: center;
+    -fx-padding: 10 0;
+}
    /* General Container Styling */
    .dashboard, .page {
        -fx-padding: 30;

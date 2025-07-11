@@ -36,11 +36,11 @@
     <!-- Table for viewing budgets -->
     <TableView fx:id="budgetTable" styleClass="table-view">
         <columns>
-            <TableColumn fx:id="idColumn" text="ID" prefWidth="50"/>
-            <TableColumn fx:id="amountColumn" text="Amount" prefWidth="100"/>
-            <TableColumn fx:id="categoryColumn" text="Category" prefWidth="150"/>
-            <TableColumn fx:id="periodColumn" text="Period" prefWidth="120"/>
-            <TableColumn fx:id="actionColumn" text="Actions" prefWidth="150"/>
+            <TableColumn fx:id="idColumn" text="ID" prefWidth="90"/>
+            <TableColumn fx:id="amountColumn" text="Amount" prefWidth="160"/>
+            <TableColumn fx:id="categoryColumn" text="Category" prefWidth="160"/>
+            <TableColumn fx:id="periodColumn" text="Period" prefWidth="160"/>
+            <TableColumn fx:id="actionColumn" text="Actions" prefWidth="170"/>
         </columns>
     </TableView>
 
