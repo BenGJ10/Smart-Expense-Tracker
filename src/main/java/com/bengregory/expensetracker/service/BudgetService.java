@@ -48,14 +48,17 @@ public class BudgetService implements IBudgetService {
     }
 
     @Override
-    public void updateBudget(Budget budget) throws InvalidInputException, DatabaseException {
-        if (SessionManager.getInstance().getLoggedInUser() == null) {
-            logger.warning("Attempt to update budget without logged-in user");
-            throw new DatabaseException("No user logged in");
+    public void updateBudget(Budget budget) throws DatabaseException, InvalidInputException {
+        if (budget == null || budget.getAmount() <= 0 || budget.getCategory() == null || budget.getPeriod() == null || budget.getId() <= 0) {
+            throw new InvalidInputException("Invalid budget data for update");
         }
-        logger.info("Updating budget ID: " + budget.getId());
-        budgetDAO.updateBudget(budget);
-        logger.info("Budget updated successfully: ID " + budget.getId());
+        try {
+            budgetDAO.updateBudget(budget);
+            logger.info("Budget updated with ID: " + budget.getId());
+        } catch (Exception e) {
+            logger.error("Failed to update budget ID: " + budget.getId(), e);
+            throw new DatabaseException("Failed to update budget: " + e.getMessage());
+        }
     }
 
     @Override

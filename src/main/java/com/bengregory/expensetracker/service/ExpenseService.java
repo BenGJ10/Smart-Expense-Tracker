@@ -38,14 +38,17 @@ public class ExpenseService implements IExpenseService {
     }
 
     @Override
-    public void updateExpense(Expense expense) throws InvalidInputException, DatabaseException {
-        if (SessionManager.getInstance().getLoggedInUser() == null) {
-            logger.warning("Attempt to update expense without logged-in user");
-            throw new DatabaseException("No user logged in");
+    public void updateExpense(Expense expense) throws DatabaseException, InvalidInputException {
+        if (expense == null || expense.getAmount() <= 0 || expense.getCategory() == null || expense.getId() <= 0) {
+            throw new InvalidInputException("Invalid expense data for update");
         }
-        logger.info("Updating expense ID: " + expense.getId());
-        expenseDAO.updateExpense(expense);
-        logger.info("Expense updated successfully: ID " + expense.getId());
+        try {
+            expenseDAO.updateExpense(expense);
+            logger.info("Expense updated with ID: " + expense.getId());
+        } catch (Exception e) {
+            logger.error("Failed to update expense ID: " + expense.getId(), e);
+            throw new DatabaseException("Failed to update expense: " + e.getMessage());
+        }
     }
 
     @Override

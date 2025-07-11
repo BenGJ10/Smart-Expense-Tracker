@@ -38,14 +38,17 @@ public class IncomeService implements IIncomeService {
     }
 
     @Override
-    public void updateIncome(Income income) throws InvalidInputException, DatabaseException {
-        if (SessionManager.getInstance().getLoggedInUser() == null) {
-            logger.warning("Attempt to update income without logged-in user");
-            throw new DatabaseException("No user logged in");
+    public void updateIncome(Income income) throws DatabaseException, InvalidInputException {
+        if (income == null || income.getAmount() <= 0 || income.getSource() == null || income.getId() <= 0) {
+            throw new InvalidInputException("Invalid income data for update");
         }
-        logger.info("Updating income ID: " + income.getId());
-        incomeDAO.updateIncome(income);
-        logger.info("Income updated successfully: ID " + income.getId());
+        try {
+            incomeDAO.updateIncome(income);
+            logger.info("Income updated with ID: " + income.getId());
+        } catch (Exception e) {
+            logger.error("Failed to update income ID: " + income.getId(), e);
+            throw new DatabaseException("Failed to update income: " + e.getMessage());
+        }
     }
 
     @Override
