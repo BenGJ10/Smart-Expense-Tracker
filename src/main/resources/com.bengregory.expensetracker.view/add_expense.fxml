@@ -15,7 +15,7 @@
       fx:controller="com.bengregory.expensetracker.controller.AddExpenseController">
 
     <!-- Title -->
-    <Label text="Manage Expenses" styleClass="title-label"/>
+    <Label text="Manage your Expenses" styleClass="title-label"/>
 
     <!-- Form for adding expense -->
     <GridPane fx:id="expenseForm" hgap="15" vgap="15" alignment="CENTER">

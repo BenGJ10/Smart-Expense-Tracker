@@ -74,7 +74,7 @@
         <Label fx:id="activity3" text="" styleClass="activity-label" prefWidth="400" />
 
         <!-- Budget Alerts -->
-        <Label fx:id="budgetAlertLabel" text="" styleClass="alert-label" wrapText="true"  prefWidth="400" />
+        <Label fx:id="budgetAlertLabel" text="" styleClass="alert-label" wrapText="true"  prefWidth="600" />
     </VBox>
 
 </VBox>
