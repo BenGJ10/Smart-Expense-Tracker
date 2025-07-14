@@ -122,6 +122,11 @@ Smart-Expense-Tracker/
 ├── README.md
 ```
 
+## Data Flow Diagram
+
+![DFD](images/DataFlowDiagram.png)
+
+
 ## Setup Instructions
 
 1. **Prerequisites**:
