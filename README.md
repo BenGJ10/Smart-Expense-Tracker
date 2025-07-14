@@ -109,8 +109,6 @@ Smart-Expense-Tracker/
 │   │   │   ├── login.fxml
 │   │   │   ├── register.fxml
 │   │   │   ├── styles.css
-│   │   ├── resources/
-│   │   │   ├── db.properties
 │   ├── test/
 │   │   ├── java/com/bengregory/expensetracker/
 │   │   │   ├── dao/
@@ -120,17 +118,7 @@ Smart-Expense-Tracker/
 │   │   │   │   ├── BudgetDAOTest.java
 │   │   │   ├── util/
 │   │   │   │   ├── DatabaseConnectionTest.java
-├── docs/
-│   ├── screenshots/
-│   │   ├── login.png
-│   │   ├── dashboard.png
-│   │   ├── add_income.png
-│   │   ├── add_expense.png
-│   │   ├── add_budget.png
-│   │   ├── profile.png
-│   ├── demo.mp4
 ├── pom.xml
-├── logs.log
 ├── README.md
 ```
 
