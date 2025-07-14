@@ -265,6 +265,8 @@ This project is developed as part of a university course. Contributions are not 
 
 - `Jerome Philip John` [GitHub](https://github.com/jerome784) | [LinkedIn](https://www.linkedin.com/in/jerome-john-8b7ab8288/)
 
+
+- `Md Aquib Raza` [GitHub](https://github.com/Razaaquib99)
 ## License
 
 This project is for educational purposes and not distributed under a specific license.
