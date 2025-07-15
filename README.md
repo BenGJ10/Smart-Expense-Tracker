@@ -224,7 +224,7 @@ Below are screenshots showcasing the application’s key interfaces. All pages f
 - **Profile**: View and update user details securely.  
   ![Profile](images/upd_pass.png)
 - **Dashboard with Budgets**: Updated dashboard with budget alerts.
-- ![Budgets](images/upd_dashboard.png)
+![Budgets](images/upd_dashboard.png)
 
 ## Current Status
 
@@ -247,10 +247,6 @@ Below are screenshots showcasing the application’s key interfaces. All pages f
 - Expand unit tests for controllers and services.
 - Write a detailed user guide and project report for submission.
 
-## Contributing
-
-This project is developed as part of a university course. Contributions are not open, but feedback is welcome via the repository’s issues section at [https://github.com/BenGJ10/Smart-Expense-Tracker](https://github.com/BenGJ10/Smart-Expense-Tracker).
-
 ## Contributers
 
 - `Ben Gregory John` [GitHub](https://github.com/BenGJ10) | [LinkedIn](https://www.linkedin.com/in/bengj10/)
@@ -260,6 +256,3 @@ This project is developed as part of a university course. Contributions are not 
 
 
 - `Md Aquib Raza` [GitHub](https://github.com/Razaaquib99)
-## License
-
-This project is for educational purposes and not distributed under a specific license.
