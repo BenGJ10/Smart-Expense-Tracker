@@ -8,6 +8,12 @@
     <artifactId>smart-expense-tracker</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+    <packaging>jar</packaging>
+
+    <name>Smart Expense Tracker</name>
+    <description>Full fledged expense tracker application using JavaFX and JDBC</description>
+    <url>https://github.com/BenGJ10/Smart-Expense-Tracker</url>
+
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
@@ -65,5 +71,11 @@
             </plugin>
         </plugins>
     </build>
-
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>GitHub Packages</name>
+            <url>https://maven.pkg.github.com/BenGJ10/Smart-Expense-Tracker</url>
+        </repository>
+    </distributionManagement>
 </project>
