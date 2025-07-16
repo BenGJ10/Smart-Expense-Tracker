@@ -3,7 +3,7 @@ package com.bengregory.expensetracker.util;
 import java.sql.Connection; // JDBC classes for DB connections
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.Properties;
+import java.util.Properties; // Java utility class that holds key-value pairs of configuration
 import java.io.FileInputStream;
 import java.io.IOException;
 

@@ -9,7 +9,7 @@ import com.bengregory.expensetracker.util.InvalidInputException;
 import com.bengregory.expensetracker.util.SessionManager;
 
 public class UserService implements IUserService {
-    private final IUserDAO userDAO = new UserDAO();
+    private final IUserDAO userDAO = new UserDAO(); // Custom singleton logger used to log actions
     private final CustomLogger logger = CustomLogger.getInstance();
 
     @Override
@@ -22,8 +22,8 @@ public class UserService implements IUserService {
     @Override
     public User loginUser(String username, String password) throws InvalidInputException, DatabaseException {
         logger.info("Attempting login for user: " + username);
-        User user = userDAO.loginUser(username, password);
-        SessionManager.getInstance().setLoggedInUser(user);
+        User user = userDAO.loginUser(username, password); // Trying to login
+        SessionManager.getInstance().setLoggedInUser(user); // On success, stores the user in SessionManager
         logger.info("User login successful: " + username);
         return user;
     }
