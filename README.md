@@ -209,22 +209,18 @@ Smart-Expense-Tracker/
 
 ## Screenshots
 
-Below are screenshots showcasing the application’s key interfaces. All pages feature a dark-themed UI with consistent styling and real-time updates.
+Below are screenshots showcasing the application’s key interfaces and features. 
 
-- **Login Screen**: User authentication interface.  
-  ![Login Screen](images/login.png)
-- **Dashboard**: Displays financial summaries, recent transactions, and budget alerts.  
-  ![Dashboard](images/dashboard_main.png)
-- **Add Income**: Form and table for managing income records with edit/delete functionality.  
-  ![Add Income](images/income1.png)
-- **Add Expense**: Form and table for managing expense records with edit/delete functionality.  
-  ![Add Expense](images/expense1.png)
-- **Add Budget**: Form and table for managing budgets with edit/delete functionality.  
-  ![Add Budget](images/budget1.png)
-- **Profile**: View and update user details securely.  
-  ![Profile](images/upd_pass.png)
-- **Dashboard with Budgets**: Updated dashboard with budget alerts.
-![Budgets](images/upd_dashboard.png)
+![Overview](images/overview.png)
+
+![Login](images/login.png)
+
+![Adding Income](images/income.png)
+
+![Adding Expense](images/expense.png)
+
+![Adding Budget](images/budget.png)
+
 
 ## Current Status
 
